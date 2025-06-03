@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class CategoryChip extends StatelessWidget {
   final String title;
   final String imagePath;
+  final VoidCallback onTap;
 
-  const CategoryChip({super.key, required this.title, required this.imagePath});
+  const CategoryChip({
+    super.key,
+    required this.title,
+    required this.imagePath,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,26 +20,32 @@ class CategoryChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            // Background image
-            Container(
-              height: 100,
-              width: 160,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(imagePath),
-                  fit: BoxFit.cover,
+            // Background image with tap
+            GestureDetector(
+              onTap: onTap,
+              child: Container(
+                height: 100,
+                width: 160,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(imagePath),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
 
+            // Overlay with title
             Container(
               height: 100,
               width: 160,
-              decoration: BoxDecoration(color: Colors.black.withOpacity(0.3)),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
               child: Center(
                 child: Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

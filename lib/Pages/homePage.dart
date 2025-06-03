@@ -22,12 +22,14 @@ class _HomepageState extends State<Homepage> {
     super.initState();
   }
 
+  String newscat = 'general';
+
   Future<void> fetchNewsbyCategory() async {
     setState(() {
       isLoading = true;
     });
     try {
-      final fetch = await newsService.fetchNews(category: 'technology');
+      final fetch = await newsService.fetchNews(category: newscat);
 
       print('Fetched ${fetch.length} articles');
       setState(() {
@@ -53,50 +55,62 @@ class _HomepageState extends State<Homepage> {
             SizedBox(height: 40),
             Searchbar(),
             SizedBox(height: 40),
-            Category(),
+            Category(
+              onCategorySelected: (String category) {
+                setState(() {
+                  newscat = category;
+                   print("Selected category: $category"); 
+                });
+                fetchNewsbyCategory();
+              },
+            ),
+
             SizedBox(height: 40),
-            SizedBox(height: 20,),
-          ListView.builder(
-  physics: NeverScrollableScrollPhysics(),
-  shrinkWrap: true,
-  itemCount: articles.length,
-  itemBuilder: (context, index) {
-    final article = articles[index];
-    final imageUrl = article['urlToImage'];
+            SizedBox(height: 20),
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final article = articles[index];
+                final imageUrl = article['urlToImage'];
 
-    return Card(
-      color: Colors.grey[900],
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: ListTile(
-        contentPadding: EdgeInsets.all(10),
-        leading: imageUrl != null && imageUrl.isNotEmpty
-            ? Image.network(
-                imageUrl,
-                width: 100,
-                fit: BoxFit.cover,
-              )
-            : Container(
-                width: 100,
-                color: Colors.grey,
-                child: Icon(Icons.image_not_supported, color: Colors.white54),
-              ),
-        title: Text(
-          article['title'] ?? '',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(
-          article['description'] ?? '',
-          style: TextStyle(color: Colors.white70),
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
-  },
-)
-          
-    
-
+                return Card(
+                  color: Colors.grey[900],
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(10),
+                    leading:
+                        imageUrl != null && imageUrl.isNotEmpty
+                            ? Image.network(
+                              imageUrl,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            )
+                            : Container(
+                              width: 100,
+                              color: Colors.grey,
+                              child: Icon(
+                                Icons.image_not_supported,
+                                color: Colors.white54,
+                              ),
+                            ),
+                    title: Text(
+                      article['title'] ?? '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      article['description'] ?? '',
+                      style: TextStyle(color: Colors.white70),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
