@@ -14,14 +14,14 @@ class _HomeState extends State<Home> {
   bool isLoading = true;
   List<dynamic> articles = [];
   final List<String> topics = [
-    'general',
-    'sports',
+    'General',
+    'Sports',
     'Business',
     'Science',
     'Technology',
     'Entertainment',
   ];
-  String selectedTopic = 'general';
+  String selectedTopic = 'General';
   @override
   void initState() {
     loadNews();
@@ -157,7 +157,7 @@ class _HomeState extends State<Home> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      article['author'] ?? 'No Title',
+                                      article['author'] ?? '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -171,15 +171,20 @@ class _HomeState extends State<Home> {
                                   SizedBox(height: 30),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      article['description'] ?? 'No Title',
-                                      maxLines: 20,
+                                    child: SizedBox(
+                                      height: 100,
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                          article['description'] ?? '',
+                                          maxLines: 7,
 
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: AppColors.darkPrimary,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 18,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: AppColors.darkPrimary,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 20,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
