@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsy/Colors/colors.dart';
 import 'package:newsy/service/service.dart';
@@ -100,21 +101,94 @@ class _HomeState extends State<Home> {
             child:
                 isLoading
                     ? Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                      itemCount: articles.length,
-                      itemBuilder: (context, index) {
-                        final article = articles[index];
-                        return ListTile(
-                          title: Text(
-                            article['title'] ?? '',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          subtitle: Text(
-                            article['source']['name'] ?? '',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        );
-                      },
+                    : SizedBox(
+                      height: 300,
+                      child: ListView.builder(
+                        itemCount: articles.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          final article = articles[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Container(
+                              height: 300,
+                              width: 350,
+                              decoration: BoxDecoration(
+                                color: AppColors.primary,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: CachedNetworkImage(
+                                      imageUrl: article['urlToImage'] ?? '',
+
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      placeholder:
+                                          (context, url) => Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                      errorWidget:
+                                          (context, url, error) => Icon(
+                                            Icons.broken_image,
+                                            size: 150,
+                                          ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      article['title'] ?? 'No Title',
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: AppColors.darkBackground,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      article['author'] ?? 'No Title',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.black,
+
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      article['description'] ?? 'No Title',
+                                      maxLines: 20,
+
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: AppColors.darkPrimary,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
           ),
         ],
