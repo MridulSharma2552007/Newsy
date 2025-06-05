@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:newsy/Colors/colors.dart';
-import 'package:newsy/elements/serachbox.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,31 +9,66 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String searchText = '';
-  void updateSeatchText(String newtext) {
-    setState(() {
-      searchText = newtext;
-    });
-  }
-
+  final List<String> topics = [
+    'Trending',
+    'Sports',
+    'Business',
+    'Science',
+    'Technology',
+    'Entertainment',
+  ];
+  String selectedTopic = 'Trending';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: const Color.fromARGB(255, 22, 22, 22),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 70, 0, 20),
-            child: Serachbox(onSearch: updateSeatchText),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
               child: Text(
-                'Search Results For $searchText',
-                style: TextStyle(color: Colors.amber),
+                'Newsy',
+                style: TextStyle(
+                  color: AppColors.quad,
+                  fontSize: 60,
+                  fontFamily: 'Pilowlava',
+                ),
               ),
+            ),
+          ),
+          SizedBox(height: 10),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children:
+                  topics.map((topic) {
+                    final isSelected = selectedTopic == topic;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedTopic = topic;
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Text(
+                          topic,
+                          style: TextStyle(
+                            fontSize: isSelected ? 35 : 28,
+                            color:
+                                isSelected ? AppColors.tertiory : Colors.white,
+                            fontWeight:
+                                isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
             ),
           ),
         ],

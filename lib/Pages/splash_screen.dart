@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsy/Colors/colors.dart';
+import 'package:newsy/Pages/Searchpage.dart';
 import 'package:newsy/Pages/home.dart';
 
 class SplashScreen extends StatefulWidget {
