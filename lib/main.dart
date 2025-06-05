@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newsy/Pages/splashScreen.dart';
+import 'package:newsy/Pages/splash_screen.dart';
+
+
 void main(){
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -13,7 +15,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Splashscreen(),
+      body: SplashScreen()
     );
   }
 }
