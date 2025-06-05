@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsy/Colors/colors.dart';
+import 'package:newsy/service/service.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,15 +10,38 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isLoading = true;
+  List<dynamic> articles = [];
   final List<String> topics = [
-    'Trending',
-    'Sports',
+    'general',
+    'sports',
     'Business',
     'Science',
     'Technology',
     'Entertainment',
   ];
-  String selectedTopic = 'Trending';
+  String selectedTopic = 'general';
+  @override
+  void initState() {
+    loadNews();
+    super.initState();
+  }
+
+  Future<void> loadNews() async {
+    try {
+      final fetchArticles = await Service.fetchNewsByCategory("$selectedTopic");
+      setState(() {
+        articles = fetchArticles;
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +74,7 @@ class _HomeState extends State<Home> {
                       onTap: () {
                         setState(() {
                           selectedTopic = topic;
+                          loadNews();
                         });
                       },
                       child: Padding(
@@ -70,6 +95,27 @@ class _HomeState extends State<Home> {
                     );
                   }).toList(),
             ),
+          ),
+          Expanded(
+            child:
+                isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                      itemCount: articles.length,
+                      itemBuilder: (context, index) {
+                        final article = articles[index];
+                        return ListTile(
+                          title: Text(
+                            article['title'] ?? '',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          subtitle: Text(
+                            article['source']['name'] ?? '',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        );
+                      },
+                    ),
           ),
         ],
       ),
