@@ -39,6 +39,7 @@ class _SerachboxState extends State<Serachbox> {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: TextField(
+              cursorColor: AppColors.tertiory,
               onSubmitted: (value) => handleSearch(),
               controller: _textFieldController,
               style: TextStyle(color: Colors.white),
@@ -48,6 +49,7 @@ class _SerachboxState extends State<Serachbox> {
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
+
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 12,

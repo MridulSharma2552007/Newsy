@@ -57,7 +57,7 @@ class _Searchpage extends State<Searchpage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     'Search Results For $searchText',
-                    style: TextStyle(color: Colors.amber),
+                    style: TextStyle(color: AppColors.tertiory),
                   ),
                 ),
               ),
@@ -132,18 +132,16 @@ class _Searchpage extends State<Searchpage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: SizedBox(
                                         height: 200,
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.vertical,
-                                          child: Text(
-                                            article['description'] ?? '',
-                                            maxLines: 7,
 
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: AppColors.darkPrimary,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 20,
-                                            ),
+                                        child: Text(
+                                          article['description'] ?? '',
+                                          maxLines: 7,
+
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: AppColors.darkPrimary,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 20,
                                           ),
                                         ),
                                       ),
