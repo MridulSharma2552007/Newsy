@@ -39,6 +39,7 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_swipable: ^1.2.1
   url_launcher: ^6.3.1
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -92,3 +93,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/NewsyIcon.png"
