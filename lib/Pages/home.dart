@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
 
   Future<void> loadNews() async {
     try {
-      final fetchArticles = await Service.fetchNewsByCategory("$selectedTopic");
+      final fetchArticles = await Service.fetchNewsByCategory(selectedTopic);
       setState(() {
         articles = fetchArticles;
         isLoading = false;

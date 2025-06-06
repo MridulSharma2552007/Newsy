@@ -26,7 +26,7 @@ class _Searchpage extends State<Searchpage> {
 
   Future<void> loadnews() async {
     try {
-      final fetchedarticles = await Service.fetchNewsBySearching('$searchText');
+      final fetchedarticles = await Service.fetchNewsBySearching(searchText);
       setState(() {
         articles = fetchedarticles;
         isLoading = false;

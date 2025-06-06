@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newsy/Colors/colors.dart';
 import 'package:newsy/Pages/Searchpage.dart';
 import 'package:newsy/Pages/home.dart';
+import 'package:newsy/Pages/info.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
@@ -40,7 +41,12 @@ class Navbar extends StatelessWidget {
                 },
                 icon: Icon(Icons.search_rounded),
               ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
+              IconButton(onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutPage()),
+                  );
+              }, icon: Icon(Icons.person_2_outlined)),
             ],
           ),
         ),
