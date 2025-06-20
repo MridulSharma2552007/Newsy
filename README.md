@@ -3,7 +3,7 @@
 **Newsy** is a sleek, beautifully designed Flutter news app bringing you the latest headlines from around the world!  
 Browse your favorite categories, search trending news, and stay updated anytime, anywhere.
 
-Built with ❤️ by **Mridul Sharma**.
+Built with ❤️ by **Mridul Sharma**..
 
 ---
 
