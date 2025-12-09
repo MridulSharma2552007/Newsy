@@ -1,19 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:newsy/Colors/colors.dart';
+import 'package:newsy/Pages/apicheck.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
 
-Future<void> _launchURL(String url) async {
-  final Uri uri = Uri.parse(url);
-  if (!await launchUrl(
-    uri,
-    mode: LaunchMode.externalApplication,
-  )) {
-    throw Exception('Could not launch $url');
-  }
+  @override
+  State<AboutPage> createState() => _AboutPageState();
 }
+
+class _AboutPageState extends State<AboutPage> {
+  final TextEditingController apiController = TextEditingController();
+
+  @override
+  void dispose() {
+    apiController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    try {
+      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Could not launch URL')));
+      }
+    } catch (_) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Could not launch URL')));
+    }
+  }
+
+  Future<void> saveapi() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('api_key', apiController.text.trim());
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('API key saved')));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +108,47 @@ Future<void> _launchURL(String url) async {
                   () => _launchURL(
                     "https://drive.google.com/file/d/1dBXlX8z4icY-fkv4S4aFA9Dg1LStThwW/view",
                   ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: apiController,
+              style: TextStyle(color: AppColors.tertiory),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.darkBackground,
+                hintText: 'Enter API Key',
+                hintStyle: TextStyle(
+                  color: AppColors.tertiory.withOpacity(0.6),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: ElevatedButton(
+                onPressed: saveapi,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 15,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
