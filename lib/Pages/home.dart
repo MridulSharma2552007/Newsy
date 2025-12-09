@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:newsy/Colors/colors.dart';
 import 'package:newsy/elements/navbar.dart';
 import 'package:newsy/service/service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool isLoading = true;
   List<dynamic> articles = [];
+  String? errorMessage;
   final List<String> topics = [
     'General',
     'Sports',
@@ -26,22 +28,47 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     loadNews();
+    setBool();
     super.initState();
   }
 
   Future<void> loadNews() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null; // reset on each load
+    });
+
     try {
       final fetchArticles = await Service.fetchNewsByCategory(selectedTopic);
+      if (!mounted) return;
       setState(() {
         articles = fetchArticles;
         isLoading = false;
       });
     } catch (e) {
-      print(e);
+      if (!mounted) return;
       setState(() {
         isLoading = false;
+        articles = [];
+        errorMessage = e.toString();
       });
+
+      // 🔔 Show message to user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "${errorMessage!}Enter a valid api key",
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
     }
+  }
+
+  Future<void> setBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', true);
   }
 
   @override

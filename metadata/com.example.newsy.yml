@@ -1,0 +1,23 @@
+Categories:
+  - Internet
+  - News
+License: MIT
+WebSite: https://github.com/MridulSharma2552007/Newsy
+SourceCode: https://github.com/MridulSharma2552007/Newsy
+IssueTracker: https://github.com/MridulSharma2552007/Newsy/issues
+
+AutoName: Newsy
+
+RepoType: git
+Repo: https://github.com/MridulSharma2552007/Newsy.git
+
+Builds:
+  - versionName: "1.0.0"
+    versionCode: 1
+    commit: main
+    subdir: .
+    gradle:
+      - yes
+
+MaintainerNotes: |
+  Flutter-based open-source news app. Requires user to provide their own API key for the news service.

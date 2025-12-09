@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:newsy/Pages/apicheck.dart';
 import 'package:newsy/Pages/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,6 +13,26 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   double opacitylevel = 0.0;
   @override
+  Future<void> getvalue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+    if (isLoggedIn != null && isLoggedIn) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      });
+    } else {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Apicheck()),
+        );
+      });
+    }
+  }
+
   void initState() {
     Future.delayed(Duration(seconds: 1), () {
       if (mounted) {
@@ -19,14 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       }
     });
-    Future.delayed(Duration(seconds: 3), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
-        );
-      }
-    });
+    getvalue();
     super.initState();
   }
 
