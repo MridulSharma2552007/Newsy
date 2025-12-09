@@ -65,7 +65,7 @@ class _Searchpage extends State<Searchpage> {
                 child:
                     isLoading
                         ? Center(child: CircularProgressIndicator())
-                        : ListView.builder(
+                        : PageView.builder(
                           itemCount: articles.length,
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) {

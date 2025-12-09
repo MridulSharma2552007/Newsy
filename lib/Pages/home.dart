@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
                             ? Center(child: CircularProgressIndicator())
                             : SizedBox(
                               height: 300,
-                              child: ListView.builder(
+                              child: PageView.builder(
                                 itemCount: articles.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
